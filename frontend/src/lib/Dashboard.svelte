@@ -2,8 +2,6 @@
   import { onMount } from 'svelte';
   import rough from 'roughjs/bundled/rough.esm.js';
   
-  export let isNightMode = false;
-  
   // City stats (read-only displays)
   let economy = 65;
   let health = 72;
@@ -174,6 +172,22 @@
     gap: 20px;
     padding: 20px;
     pointer-events: auto;
+    box-sizing: border-box;
+  }
+
+  .dashboard-container * {
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 768px) {
+    .dashboard-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      height: 90%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   .dashboard-title {
