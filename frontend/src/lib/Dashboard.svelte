@@ -200,8 +200,13 @@
     padding-bottom: 10px;
     text-transform: uppercase;
     letter-spacing: 3px;
-    transform: rotate(-1deg);
     filter: drop-shadow(3px 3px 0 rgba(255, 255, 255, 0.5));
+    animation: titleJitter 2s steps(1, end) infinite;
+  }
+
+  @keyframes titleJitter {
+    0%, 49.999% { transform: rotate(-1deg) translate(0px, 0px); }
+    50%, 100%   { transform: rotate(0.5deg) translate(1px, -1px); }
   }
 
   .stats-panel {
