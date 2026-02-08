@@ -2,6 +2,13 @@
 
 Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
 
+First install bun
+```sh
+curl -fsSL https://bun.com/install | bash
+```
+
+Then restart your shell to have `bun` available in your `PATH`.
+
 ## Creating a project
 
 If you're seeing this, you've probably already done this step. Congrats!
@@ -15,7 +22,7 @@ To recreate this project with the same configuration:
 
 ```sh
 # recreate this project
-npx sv create --template minimal --types ts --add prettier eslint tailwindcss="plugins:typography,forms" playwright vitest="usages:unit,component" --install npm frontend
+bun x sv create --template minimal --types jsdoc --install bun frontend/
 ```
 
 ## Developing

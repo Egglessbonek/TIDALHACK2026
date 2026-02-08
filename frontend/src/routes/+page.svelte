@@ -1,44 +1,84 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import BackgroundScroller from '$lib/BackgroundScroller.svelte';
+  import DrawingOverlay from '$lib/DrawingOverlay.svelte';
+  import paperTexture from '$lib/assets/images/paper-texture.png';
   
-  let mounted = false;
-  
-  onMount(() => {
-    mounted = true;
-  });
+  // Night Mode State
+  let isNightMode = false;
+
+  function toggleNightMode() {
+    isNightMode = !isNightMode;
+  }
 </script>
 
-<main class="min-h-screen p-8 bg-graph-paper">
-  <div class="paper-border bg-white p-6 max-w-md mx-auto animate-wobble">
-    <h1 class="text-3xl font-bold text-blue-800 mb-4 font-sketch">
-      🏗️ Causal Canvas
-    </h1>
+<DrawingOverlay />
+
+<div class="page-container" class:night-mode={isNightMode}>
+  <!-- Render our animated background component -->
+  <BackgroundScroller />
+  
+  {#if isNightMode}
+    <div class="night-tint"></div>
+  {/if}
+
+  <button class="mode-toggle" on:click={toggleNightMode} aria-label="Toggle Night Mode">
+    {isNightMode ? '☀️ Day' : '🌙 Night'}
+  </button>
+</div>
+
+<style>
+  .page-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+    background-image: url('{paperTexture}');
+    background-size: cover;
+    background-position: center;
+    transition: background-color 0.3s;
+  }
+
+  .page-container.night-mode {
+    /* Night background color */
+    background: transparent;
+  }
+
+  .night-tint {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3); /* 40% darker tint */
+    z-index: 1; /* Above background (0), below overlay (5) */
+    pointer-events: none;
+  }
+
+  .mode-toggle {
+    position: absolute;
+    top: 1rem;  
+    right: 1rem;
+    z-index: 20;
+    padding: 15px;
+    font-family: 'Press Start 2P', cursive, sans-serif;
+    font-size: 0.8rem;
+    cursor: pointer;
     
-    <div class="space-y-2">
-      <p class="text-lg text-gray-700 font-sketch">
-        ✅ Tailwind v4 is {mounted ? 'working' : 'loading'}!
-      </p>
-      <p class="text-sm text-gray-500">
-        You should see:
-      </p>
-      <ul class="text-xs list-disc list-inside text-gray-600">
-        <li>Graph paper background</li>
-        <li>Wobbling animation</li>
-        <li>Hand-drawn border</li>
-        <li>Custom sketch fonts</li>
-      </ul>
-    </div>
+    color: white;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 4px;
+    user-select: text;
     
-    <!-- Test Tailwind utility classes -->
-    <div class="mt-4 flex gap-2">
-      <div class="size-10 bg-red-500 rounded-lg"></div>
-      <div class="size-10 bg-green-500 rounded-lg"></div>
-      <div class="size-10 bg-blue-500 rounded-lg"></div>
-    </div>
-    
-    <!-- Test button -->
-    <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-sketch">
-      Start Building!
-    </button>
-  </div>
-</main>
+    transition: background-color 0.2s, transform 0.1s;
+  }
+
+  .mode-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .mode-toggle:active {
+    transform: scale(0.95);
+  }
+</style>
